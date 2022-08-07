@@ -21,8 +21,8 @@ def task_2_func(x):
     return (x[0] * np.cos(x[1])) + (0.05 * x[1] ** 3) + (3 * x[0] ** 3) * (np.log2(x[1] ** 2))
 
 def gradient(x, func):
-    return (round((func([x[0] + dx, x[1]]) - func(x)) / dx, 2), # dx / dx_1
-            round((func([x[0], x[1] + dx]) - func(x)) / dx, 2)) # dx / dx_2
+    return [round((func([x[0] + dx, x[1]]) - func(x)) / dx, 2), # dx / dx_1
+            round((func([x[0], x[1] + dx]) - func(x)) / dx, 2)] # dx / dx_2
 
 # Задача 3:
 
