@@ -3,7 +3,7 @@ import numpy as np
 # Задача 1:
 
 # Приращение по умолчанию
-dx = 0.001
+dx = 0.0001
 
 # Производная равна: - sin(x) + 0.15 * x ** 2 + 2 / (x * np.log(2))
 def task_1_func(x):
@@ -40,7 +40,7 @@ def gradient_optimization_one_dim(func):
 
 initial_weights = [4, 10]
 
-def gradient_optimisation_multi_dim(func):
+def gradient_optimization_multi_dim(func):
     result = initial_weights
     for _ in range(iterations_count):
         result = [result[i] - grad_i * epsilon for i, grad_i in enumerate(gradient(result, func))]
