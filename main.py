@@ -40,8 +40,12 @@ def gradient_optimization_one_dim(func):
 
 initial_weights = [4, 10]
 
-def gradient_optimization_multi_dim(func):
+def gradient_analytics(x):
+    return [round(x[0] * ( (9 * x[0] * np.log(x[1] ** 2)) / np.log(2) + 2 * np.cos(x[1])), 2),  # d/dx_1
+            round(0.15 * x[1] ** 2 - x[0] ** 2 * np.sin(x[1]), 2)]                              # d/dx_2
+
+def gradient_optimisation_multi_dim(func):
     result = initial_weights
     for _ in range(iterations_count):
-        result = [result[i] - grad_i * epsilon for i, grad_i in enumerate(gradient(result, func))]
+        result = [result[i] - grad_i * epsilon for i, grad_i in enumerate(gradient_analytics(result))]
     return [round(number, 2) for number in result]
