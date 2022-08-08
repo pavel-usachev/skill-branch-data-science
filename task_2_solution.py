@@ -1,7 +1,7 @@
 import pandas as pd
 
 def calculate_data_shape(x):
-    return x.size
+    return x.shape
 
 def take_columns(x):
     return x.columns
@@ -10,7 +10,7 @@ def calculate_target_ratio(x, target_name):
     return round(x[target_name].mean(), 2)
 
 def calculate_data_dtypes(x):
-    return x.dtypes.groupby(x.dtypes).count()
+    return x.dtypes.count()
 
 def calculate_cheap_apartment(x):
     return round((x.price_doc <= 10 ** 6).sum())
@@ -25,7 +25,7 @@ def calculate_mean_squared_by_num_rooms(x):
     return round(x.groupby('num_room').full_sq.mean(), 2)
 
 def calculate_squared_stats_by_material(x):
-    return x.groupby('material').price_doc.aggregate(['min', 'max']).rename(columns={"min": "amin", "max": "amax"})
+    return round(x.groupby('material').price_doc.agg(['min', 'max']).rename(columns={"min": "amin", "max": "amax"}), 2)
 
 def calculate_crosstab(x):
     return round(x.pivot_table('price_doc', index=['sub_area'], columns=['product_type'], aggfunc='mean').fillna(0), 2)
