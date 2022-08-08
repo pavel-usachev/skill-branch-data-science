@@ -26,7 +26,7 @@ def calculate_mean_squared_by_num_rooms(x):
     return round(x.groupby('num_room').full_sq.mean(), 2)
 
 def calculate_squared_stats_by_material(x):
-    return round(x.groupby('material').price_doc.agg(['max', 'min']).rename(columns={"min": "amin", "max": "amax"}), 2)
+    return round(x.groupby('material').full_sq.agg(['max', 'min']).rename(columns={"min": "amin", "max": "amax"}), 2)
 
 def calculate_crosstab(x):
     return round(x.pivot_table('price_doc', index=['sub_area'], columns=['product_type'], aggfunc='mean').fillna(0), 2)
