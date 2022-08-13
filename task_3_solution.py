@@ -10,10 +10,8 @@ def split_data_into_two_samples(df: pd.DataFrame,
     return train_test_split(df, train_size=0.7, random_state=ranom_state, shuffle=True)
 
 def prepare_data(df: pd.DataFrame):
-    df = df.drop(columns=["id"])
-    y = df["price_doc"]
-    X = df.select_dtypes([np.number]).dropna(axis=1)
-    return X, y
+    return (df.select_dtypes([np.number]).dropna(axis=1).drop(columns=["price_doc"]),
+            df["price_doc"])
 
 def scale_data(df: pd.DataFrame, transformer):
     return transformer.fit_transform(df);
@@ -30,7 +28,7 @@ def fit_first_linear_model(x_train, y_train):
 
 def evaluate_model(model: LinearRegression, X_test, y_test):
     y_pred = model.predict(X_test)
-    return [round(value, 2) for value in [mean_squared_error(y_test, y_pred),
+    return [round(value, 2) for value in [np.sqrt(mean_squared_error(y_test, y_pred)),
             mean_absolute_error(y_test, y_pred),
             r2_score(y_test, y_pred)]]
 
