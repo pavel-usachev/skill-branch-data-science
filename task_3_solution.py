@@ -10,11 +10,11 @@ def split_data_into_two_samples(df: pd.DataFrame,
     return train_test_split(df, train_size=0.7, random_state=ranom_state, shuffle=True)
 
 def prepare_data(df: pd.DataFrame):
-    return (df.select_dtypes([np.number]).dropna(axis=1).drop(columns=["price_doc"]),
+    return (df.select_dtypes([np.number]).dropna(axis=1).drop(columns=["price_doc", "id"]),
             df["price_doc"])
 
 def scale_data(df: pd.DataFrame, transformer):
-    return transformer.fit_transform(df);
+    return transformer.fit_transform(df)
 
 def prepare_data_for_model(df: pd.DataFrame, transformer):
     X_train, y_train = prepare_data(df)
