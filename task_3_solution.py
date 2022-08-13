@@ -26,12 +26,16 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
 def fit_first_linear_model(x_train, y_train):
     return LinearRegression().fit(x_train, y_train)
 
-def evaluate_model(model: LinearRegression, X_test: pd.DataFrame, y_test: pd.DataFrame):
-    y_pred = model.predict(X_test)
-    return [round(value, 2) for value in [mean_squared_error(y_test, y_pred),
-            mean_absolute_error(y_test, y_pred),
-            r2_score(y_test, y_pred)]]
+def evaluate_model(model, x_test, y_test):
+    y_pred = model.predict(x_test)
+    MSE = round(mean_squared_error(y_test, y_pred), 2)
+    MAE = round(mean_absolute_error(y_test, y_pred), 2)
+    R2 = round(r2_score(y_test, y_pred), 2)
+    return [MSE, MAE, R2]
 
-def calculate_model_weights(model: LinearRegression, feature_names):
-    dict_coefs = dict(zip(model.feature_names_in_, model.coef_))
-    return sorted([dict_coefs[key] for key in feature_names], reverse=True)
+def calculate_model_weights(model, features):
+    sorted_weights = sorted(zip(model.coef_, features), reverse=True)
+    weights = pd.Series([x[0] for x in sorted_weights])
+    features = pd.Series([x[1] for x in sorted_weights])
+    df = pd.DataFrame({'features': features, 'weights': weights})
+    return df
