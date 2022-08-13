@@ -24,18 +24,14 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
     return X_train_scaled, y_train
 
 def fit_first_linear_model(x_train, y_train):
-    model = LinearRegression()
-    model.fit(x_train, y_train)
-    return model
+    return LinearRegression().fit(x_train, y_train)
 
-def evaluate_model(model: LinearRegression, X_test, y_test):
+def evaluate_model(model: LinearRegression, X_test: pd.DataFrame, y_test: pd.DataFrame):
     y_pred = model.predict(X_test)
-    return [round(value, 2) for value in [np.sqrt(mean_squared_error(y_test, y_pred)),
+    return [round(value, 2) for value in [mean_squared_error(y_test, y_pred),
             mean_absolute_error(y_test, y_pred),
             r2_score(y_test, y_pred)]]
 
 def calculate_model_weights(model: LinearRegression, feature_names):
-    indicies = [X_train.columns.get_loc(feature) for feature in feature_names]
-    weights = model.coef_[indicies]
-    sorted_weights = sorted(zip(weights, feature_names), reverse=True)
-    return sorted_weights
+    dict_coefs = dict(zip(model.feature_names_in_, model.coef_))
+    return sorted([dict_coefs[key] for key in feature_names], reverse=True)
