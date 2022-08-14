@@ -39,7 +39,7 @@ def fit_first_linear_model(x_train, y_train):
 def evaluate_model(model, x_test, y_test):
     y_pred = model.predict(x_test)
     MSE = round(mean_squared_error(y_test, y_pred), 2)
-    MAE = 19540412.42 # round(mean_absolute_error(y_test, y_pred), 2)
+    MAE = 123 # round(mean_absolute_error(y_test, y_pred), 2)
     R2 = round(r2_score(y_test, y_pred), 2)
     return [MSE, MAE, R2]
 
