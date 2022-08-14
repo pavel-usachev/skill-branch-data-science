@@ -24,16 +24,18 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
     return X_train_scaled, y_train
 
 def fit_first_linear_model(x_train, y_train):
+    print("fit_first")
+    print(x_train.shape, y_train.shape)
+    print(X_train.head())
     x_train_scaled = scale_data(x_train, StandardScaler())
-    model = LinearRegression()
-    model.fit(x_train_scaled, y_train)
-    return model
+    return LinearRegression().fit(x_train_scaled, y_train)
     
-def fit_first_linear_model_2(x_train, y_train):
+def fit_first_linear_model(x_train, y_train):
+    print("fit_first2")
+    print(x_train.shape, y_train.shape)
+    print(X_train.head())
     x_train_scaled = scale_data(x_train, MinMaxScaler())
-    model = LinearRegression()
-    model.fit(x_train_scaled, y_train)
-    return model
+    return LinearRegression().fit(x_train_scaled, y_train)
 
 # X_train, X_test = split_data_into_two_samples(data)
 
