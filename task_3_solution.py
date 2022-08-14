@@ -26,14 +26,14 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
 def fit_first_linear_model(x_train, y_train):
     print("fit_first")
     print(x_train.shape, y_train.shape)
-    print(X_train.head())
+    print(x_train.head())
     x_train_scaled = scale_data(x_train, StandardScaler())
     return LinearRegression().fit(x_train_scaled, y_train)
     
 def fit_first_linear_model(x_train, y_train):
     print("fit_first2")
     print(x_train.shape, y_train.shape)
-    print(X_train.head())
+    print(x_train.head())
     x_train_scaled = scale_data(x_train, MinMaxScaler())
     return LinearRegression().fit(x_train_scaled, y_train)
 
