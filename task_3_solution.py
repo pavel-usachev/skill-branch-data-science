@@ -30,7 +30,7 @@ def fit_first_linear_model(x_train, y_train):
     x_train_scaled = scale_data(x_train, StandardScaler())
     return LinearRegression().fit(x_train_scaled, y_train)
     
-def fit_first_linear_model(x_train, y_train):
+def fit_first_linear_model2(x_train, y_train):
     print("fit_first2")
     print(x_train.shape, y_train.shape)
     print(x_train.head())
