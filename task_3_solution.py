@@ -29,13 +29,6 @@ def fit_first_linear_model(x_train, y_train):
     print(x_train.head())
     x_train_scaled = scale_data(x_train, StandardScaler())
     return LinearRegression().fit(x_train_scaled, y_train)
-    
-def fit_first_linear_model2(x_train, y_train):
-    print("fit_first2")
-    print(x_train.shape, y_train.shape)
-    print(x_train.head())
-    x_train_scaled = scale_data(x_train, MinMaxScaler())
-    return LinearRegression().fit(x_train_scaled, y_train)
 
 # X_train, X_test = split_data_into_two_samples(data)
 
@@ -48,6 +41,12 @@ def fit_first_linear_model2(x_train, y_train):
 # model2 = fit_first_linear_model(X_train_scaled_2, y_train_2)
 
 def evaluate_model(model, x_test, y_test):
+    print(model.coef_)
+
+    print("evaluate")
+    print(x_test.shape, y_test.shape)
+    print(x_test.head())
+
     y_pred = model.predict(x_test)
     MSE = round(mean_squared_error(y_test, y_pred), 2)
     MAE = round(mean_absolute_error(y_test, y_pred), 2)
