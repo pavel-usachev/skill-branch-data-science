@@ -1,62 +1,47 @@
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.base import TransformerMixin
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-def split_data_into_two_samples(df: pd.DataFrame,
-                                ranom_state: int = 42):
-    return train_test_split(df, train_size=0.7, random_state=ranom_state, shuffle=True)
+def split_data_into_two_samples(x):
+    x_train, x_test = train_test_split(x, test_size=0.3, random_state=42)
+    return [x_train, x_test]
 
-def prepare_data(df: pd.DataFrame):
-    return (df.select_dtypes([np.number]).dropna(axis=1).drop(columns=["price_doc", "id"]),
-            df["price_doc"])
+def prepare_data(x):
+    target_vector = x['price_doc']
+    objects = x.select_dtypes(include=['object']).columns
+    filtered = x.drop(columns=objects).drop(columns=["id"]).drop(columns=['price_doc']).dropna(axis=1)
+    return [filtered, target_vector]
 
-def scale_data(df: pd.DataFrame, transformer: TransformerMixin):
-    scaled = transformer.fit_transform(df)
-    return pd.DataFrame(scaled, columns=df.columns)
+def scale_data(x, transformer):
+    return transformer.fit_transform(x)
 
-def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
-    X_train, y_train = prepare_data(df)
-    X_train_scaled = scale_data(X_train, transformer)
-    return X_train_scaled, y_train
+def prepare_data_for_model(x, transformer):
+    x_train, x_test = prepare_data(x)
+    x_scaled_array = scale_data(x_train, transformer)
+    x_train_scaled = pd.DataFrame(x_scaled_array, columns=x_train.columns)
+    return [x_train_scaled, x_test]
 
 def fit_first_linear_model(x_train, y_train):
-    print("fit_first")
-    print(x_train.shape, y_train.shape)
-    print(x_train.head())
     x_train_scaled = scale_data(x_train, StandardScaler())
-    return LinearRegression().fit(x_train_scaled, y_train)
-    
-def fit_first_linear_model2(x_train, y_train):
-    print("fit_first2")
-    print(x_train.shape, y_train.shape)
-    print(x_train.head())
-    x_train_scaled = scale_data(x_train, MinMaxScaler())
-    return LinearRegression().fit(x_train_scaled, y_train)
+    model = LinearRegression()
+    model.fit(x_train_scaled, y_train)
+    return model
 
-# X_train, X_test = split_data_into_two_samples(data)
+def evaluate_model(linreg, x_test, y_test):
+    y_pred = linreg.predict(x_test)
+    mse = mean_squared_error(y_test, y_pred)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    return [round(mse, 2), round(mae, 2), round(r2, 2)]
 
-# X_train_scaled_1, y_train_1 = prepare_data_for_model(X_train, StandardScaler())
-# X_test_scaled_1, y_test_1 = prepare_data_for_model(X_test, StandardScaler())
-# model1 = fit_first_linear_model(X_train_scaled_1, y_train_1)
-
-# X_train_scaled_2, y_train_2 = prepare_data_for_model(X_train, MinMaxScaler())
-# X_test_scaled_2, y_test_2 = prepare_data_for_model(X_test, MinMaxScaler())
-# model2 = fit_first_linear_model(X_train_scaled_2, y_train_2)
-
-def evaluate_model(model, x_test, y_test):
-    y_pred = model.predict(x_test)
-    MSE = round(mean_squared_error(y_test, y_pred), 2)
-    MAE = round(mean_absolute_error(y_test, y_pred), 2)
-    R2 = round(r2_score(y_test, y_pred), 2)
-    return [MSE, MAE, R2]
-
-def calculate_model_weights(model, features):
-    sorted_weights = sorted(zip(model.coef_, features), reverse=True)
-    weights = pd.Series([x[0] for x in sorted_weights])
-    features = pd.Series([x[1] for x in sorted_weights])
-    df = pd.DataFrame({'features': features, 'weights': weights})
+def calculate_model_weights(linreg, names):
+    df = pd.DataFrame({
+        'features': names,
+        'weights': linreg.coef_
+    })
+    df.sort_values(by=['weights'])
     return df
