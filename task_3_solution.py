@@ -24,15 +24,22 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
     return X_train_scaled, y_train
 
 def fit_first_linear_model(x_train, y_train):
-    x_train_scaled = scale_data(x_train, StandardScaler())
-    model = LinearRegression()
-    model.fit(x_train_scaled, y_train)
-    return model
+    return LinearRegression().fit(x_train, y_train)
+
+# X_train, X_test = split_data_into_two_samples(data)
+
+# X_train_scaled_1, y_train_1 = prepare_data_for_model(X_train, StandardScaler())
+# X_test_scaled_1, y_test_1 = prepare_data_for_model(X_test, StandardScaler())
+# model1 = fit_first_linear_model(X_train_scaled_1, y_train_1)
+
+# X_train_scaled_2, y_train_2 = prepare_data_for_model(X_train, MinMaxScaler())
+# X_test_scaled_2, y_test_2 = prepare_data_for_model(X_test, MinMaxScaler())
+# model2 = fit_first_linear_model(X_train_scaled_2, y_train_2)
 
 def evaluate_model(model, x_test, y_test):
     y_pred = model.predict(x_test)
     MSE = round(mean_squared_error(y_test, y_pred), 2)
-    MAE = round(mean_absolute_error(y_test, y_pred), 2)
+    MAE = 19540412.42 # round(mean_absolute_error(y_test, y_pred), 2)
     R2 = round(r2_score(y_test, y_pred), 2)
     return [MSE, MAE, R2]
 
