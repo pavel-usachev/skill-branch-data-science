@@ -24,7 +24,10 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
     return X_train_scaled, y_train
 
 def fit_first_linear_model(x_train, y_train):
-    return LinearRegression().fit(x_train, y_train)
+    x_train_scaled = scale_data(x_train, StandardScaler())
+    model = LinearRegression()
+    model.fit(x_train_scaled, y_train)
+    return model
 
 def evaluate_model(model, x_test, y_test):
     y_pred = model.predict(x_test)
