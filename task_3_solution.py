@@ -24,7 +24,16 @@ def prepare_data_for_model(df: pd.DataFrame, transformer: TransformerMixin):
     return X_train_scaled, y_train
 
 def fit_first_linear_model(x_train, y_train):
-    return LinearRegression().fit(x_train, y_train)
+    x_train_scaled = scale_data(x_train, StandardScaler())
+    model = LinearRegression()
+    model.fit(x_train_scaled, y_train)
+    return model
+    
+def fit_first_linear_model_2(x_train, y_train):
+    x_train_scaled = scale_data(x_train, MinMaxScaler())
+    model = LinearRegression()
+    model.fit(x_train_scaled, y_train)
+    return model
 
 # X_train, X_test = split_data_into_two_samples(data)
 
@@ -39,7 +48,7 @@ def fit_first_linear_model(x_train, y_train):
 def evaluate_model(model, x_test, y_test):
     y_pred = model.predict(x_test)
     MSE = round(mean_squared_error(y_test, y_pred), 2)
-    MAE = 123 # round(mean_absolute_error(y_test, y_pred), 2)
+    MAE = round(mean_absolute_error(y_test, y_pred), 2)
     R2 = round(r2_score(y_test, y_pred), 2)
     return [MSE, MAE, R2]
 
