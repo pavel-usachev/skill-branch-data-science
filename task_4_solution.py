@@ -7,12 +7,12 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import roc_auc_score
 
 def get_roc_auc(model, x_valid, y_valid, x_test, y_test):
-    return [round(score, 4) for score in [roc_auc_score(y_valid, model.predict_proba(x_valid)[:, 1]),
-                                          roc_auc_score(y_test, model.predict_proba(x_test)[:, 1])]]
+    return [round(score, 4) for score in [roc_auc_score(y_test, model.predict_proba(x_test)[:, 1]),
+                                          roc_auc_score(y_valid, model.predict_proba(x_valid)[:, 1])]]
 
 def calculate_data_stats(df: pd.DataFrame):
     return [df.shape,
-            df.dtypes[df.dtypes == np.number].count(),
+            df.dtypes[(df.dtypes == 'float64') | (df.dtypes == 'int64')].count(),
             df.dtypes[df.dtypes == 'object'].count(),
             round(df["isFraud"].mean(), 2)]
 
@@ -101,7 +101,7 @@ def find_best_split(X, y, x_test, y_test):
                                    ("model", LogisticRegression(random_state=1))])
         model = pipeline.fit(x_train, y_train)
         score_valid, score_test = get_roc_auc(model, x_valid, y_valid, x_test, y_test)
-        result["train_size"].append(train_size)
+        result["train_size"].append(x_train.shape[0])
         result["valid_score"].append(score_valid)
         result["test_score"].append(score_test)
     return pd.DataFrame(result)
