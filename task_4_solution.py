@@ -24,7 +24,7 @@ def fit_first_model(X, y, x_test, y_test):
     X = X.fillna(0)
     x_test = x_test.fillna(0)
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     model = LogisticRegression(random_state=1).fit(x_train, y_train)
     return get_roc_auc(model, x_valid, y_valid, x_test, y_test)
@@ -33,7 +33,7 @@ def fit_second_model(X, y, x_test, y_test):
     X = X.fillna(X.mean())
     x_test = x_test.fillna(x_test.mean())
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     model = LogisticRegression(random_state=1).fit(x_train, y_train)
     return get_roc_auc(model, x_valid, y_valid, x_test, y_test)
@@ -42,7 +42,7 @@ def fit_third_model(X, y, x_test, y_test):
     X = X.fillna(X.median())
     x_test = x_test.fillna(x_test.median())
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     model = LogisticRegression(random_state=1).fit(x_train, y_train)
     return get_roc_auc(model, x_valid, y_valid, x_test, y_test)
@@ -51,7 +51,7 @@ def fit_fourth_model(X, y, x_test, y_test):
     X = X.fillna(0)
     x_test = x_test.fillna(0)
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     pipeline = Pipeline(steps=[("scaling", StandardScaler()),
                                ("model", LogisticRegression(random_state=1))])
@@ -62,7 +62,7 @@ def fit_fifth_model(X, y, x_test, y_test):
     X = X.fillna(X.mean())
     x_test = x_test.fillna(x_test.mean())
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     pipeline = Pipeline(steps=[("scaling", StandardScaler()),
                                ("model", LogisticRegression(random_state=1))])
@@ -73,7 +73,7 @@ def fit_sixth_model(X, y, x_test, y_test):
     X = X.fillna(0)
     x_test = x_test.fillna(0)
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     pipeline = Pipeline(steps=[("scaling", MinMaxScaler()),
                                ("model", LogisticRegression(random_state=1))])
@@ -84,7 +84,7 @@ def fit_seventh_model(X, y, x_test, y_test):
     X = X.fillna(X.mean())
     x_test = x_test.fillna(x_test.mean())
 
-    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.3, random_state=1, shuffle=True)
+    x_train, x_valid, y_train, y_valid = train_test_split(X, y, train_size = 0.7, random_state=1, shuffle=True)
 
     pipeline = Pipeline(steps=[("scaling", MinMaxScaler()),
                                ("model", LogisticRegression(random_state=1))])
