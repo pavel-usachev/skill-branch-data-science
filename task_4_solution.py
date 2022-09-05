@@ -7,8 +7,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import roc_auc_score
 
 def get_roc_auc(model, x_valid, y_valid, x_test, y_test):
-    return [round(score, 4) for score in [roc_auc_score(y_valid, model.predict_proba(x_valid)[:, 1]), 
-                                          roc_auc_score(y_test, model.predict_proba(x_test)[:, 1])]]
+    return (round(roc_auc_score(y_valid, model.predict_proba(x_valid)[:, 1]), 4),
+            round(roc_auc_score(y_test, model.predict_proba(x_test)[:, 1]), 4))
 
 def calculate_data_stats(df: pd.DataFrame):
     return [df.shape,
