@@ -73,9 +73,9 @@ def model_with_optimal_params(X, y):
     gs = GridSearchCV(DecisionTreeClassifier(random_state = 1),
                       cv = cv,
                       param_grid = {
-                          'max_features': range(1, X.shape[1], 2),
+                          'max_features': range(8, 14, 2),
                           'max_depth': range(3, 12, 3),
-                          'min_samples_leaf': [10, 50, 100, 500, 1000, 5000, 10000],
+                          'min_samples_leaf': [10, 50, 10000],
                           'criterion': ['entropy', 'gini']
                       },
                       scoring='r2')
